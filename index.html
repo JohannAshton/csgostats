@@ -6,7 +6,7 @@
         var gameStats = [];
         gameStats[0] = {
             "playername":"Johann",
-            "timedate":"2017,09,25,12,46",
+            "timedate":"",
             "map":"de_cbble",
             "rank":"DMG",
             "kills":23,
@@ -15,18 +15,42 @@
             "mvps":4,
             "points":"50"
         }
-        function toChartFormat (stats) {
+        gameStats[1] = {
+            "playername":"Johann",
+            "timedate":"",
+            "map":"de_cbble",
+            "rank":"DMG",
+            "kills":21,
+            "assists":1,
+            "deaths":17,
+            "mvps":1,
+            "points":"43"
+        }
+        function playerKillDeaths (stats) {
             let dataArray = [];
-            /*titles = ['Rank', 'KD'];
+            titles = ['Player', 'KD'];
             dataArray[0] = titles;
-            var kd = [];
+            let kd = [];
+            let playernames = [];
+            /*for (let x = 0; x < stats.length; x++) {
+                kd[x] = stats[x].kills / stats[x].deaths;
+                dataArray[x + 1] = [stats[x].playername, kd[x]];
+                console.log(dataArray);
+            }*/
             for (let x = 0; x < stats.length; x++) {
                 kd[x] = stats[x].kills / stats[x].deaths;
-                dataArray[x + 1] = [stats[x].rank, kd[x]];
-                console.log(dataArray);
-            } */
-
-            //dataArray[1] = [stats[0].timedate, stats[0].rank]
+                playernames[x] = stats[x].playername;
+            }
+            let count = 0
+            for (let x = 0; x < stats.length; x++) {
+                for (let i = 0; x < stats.length; x++) {
+                    if (stats[x].playername === stats[i].playername) {
+                        count++
+                        dataArray[x] = [stats[x].playername, (stats[x].kd + stats[i].kd) / 2];
+                    }
+                }
+            }
+            
             console.log(dataArray);
             return dataArray;
         }
@@ -37,7 +61,7 @@
         google.charts.setOnLoadCallback(drawChart);
 
         function drawChart() {
-            var data = google.visualization.arrayToDataTable(toChartFormat(gameStats));
+            var data = google.visualization.arrayToDataTable(playerKillDeaths(gameStats));
 
             var options = {
                 title: 'Rank/KD',
