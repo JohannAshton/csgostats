@@ -1,5 +1,7 @@
 var gameStats = [];
-//gameStats[0] = {
+document.getElementsByName("submitbutton")[0].addEventListener("click", submitForm);
+
+/*gameStats[0] = {
 		"playername":"Johann",
 		"timedate":"",
 		"map":"de_cbble",
@@ -10,7 +12,7 @@ var gameStats = [];
 		"mvps":4,
 		"points":"50"
 }
-//gameStats[1] = {
+gameStats[1] = {
 		"playername":"Johann",
 		"timedate":"",
 		"map":"de_cbble",
@@ -20,14 +22,26 @@ var gameStats = [];
 		"deaths":17,
 		"mvps":1,
 		"points":"43"
-}
+}*/
 function submitForm() {
-	var 
-	gameStats[gameStats.length]
+	let d = new Date();
+	let newData = {
+		"playername":document.getElementById("playername").value,
+		"timedate":d.getTime(),
+		"map":document.getElementById("map").value,
+		"rank":document.getElementById("rank").value,
+		"kills":document.getElementById("kills").value,
+		"assists":document.getElementById("assists").value,
+		"deaths":document.getElementById("deaths").value,
+		"mvps":document.getElementById("mvps").value,
+		"points":document.getElementById("points").value
+	}
+	gameStats[gameStats.length] = newData;
+	console.log(gameStats);
 }
-function playerKillDeaths (stats) {
+function kdOverTime (stats) {
 		let dataArray = [];
-		titles = ['Player', 'KD'];
+		titles = ['Time', 'KD'];
 		dataArray[0] = titles;
 		let kd = [];
 		let playernames = [];
@@ -63,7 +77,7 @@ function drawChart() {
 		var data = google.visualization.arrayToDataTable(playerKillDeaths(gameStats));
 
 		var options = {
-				title: 'Rank/KD',
+				title: 'KD/Time',
 				curveType: 'function',
 				legend: {
 						position: 'bottom'
