@@ -1,86 +1,82 @@
+<!DOCTYPE html>
 <html>
 
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js" /> -->
+<script src="app.js"></script>
+
+
 <head>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-        var gameStats = [];
-        gameStats[0] = {
-            "playername":"Johann",
-            "timedate":"",
-            "map":"de_cbble",
-            "rank":"DMG",
-            "kills":23,
-            "assists":4,
-            "deaths":14,
-            "mvps":4,
-            "points":"50"
-        }
-        gameStats[1] = {
-            "playername":"Johann",
-            "timedate":"",
-            "map":"de_cbble",
-            "rank":"DMG",
-            "kills":21,
-            "assists":1,
-            "deaths":17,
-            "mvps":1,
-            "points":"43"
-        }
-        function playerKillDeaths (stats) {
-            let dataArray = [];
-            titles = ['Player', 'KD'];
-            dataArray[0] = titles;
-            let kd = [];
-            let playernames = [];
-            /*for (let x = 0; x < stats.length; x++) {
-                kd[x] = stats[x].kills / stats[x].deaths;
-                dataArray[x + 1] = [stats[x].playername, kd[x]];
-                console.log(dataArray);
-            }*/
-            for (let x = 0; x < stats.length; x++) {
-                kd[x] = stats[x].kills / stats[x].deaths;
-                playernames[x] = stats[x].playername;
-            }
-            let count = 0
-            for (let x = 0; x < stats.length; x++) {
-                for (let i = 0; x < stats.length; x++) {
-                    if (stats[x].playername === stats[i].playername) {
-                        count++
-                        dataArray[x] = [stats[x].playername, (stats[x].kd + stats[i].kd) / 2];
-                    }
-                }
-            }
-            
-            console.log(dataArray);
-            return dataArray;
-        }
-
-        google.charts.load('current', {
-            'packages': ['corechart']
-        });
-        google.charts.setOnLoadCallback(drawChart);
-
-        function drawChart() {
-            var data = google.visualization.arrayToDataTable(playerKillDeaths(gameStats));
-
-            var options = {
-                title: 'Rank/KD',
-                curveType: 'function',
-                legend: {
-                    position: 'bottom'
-                }
-            };
-
-            var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
-            chart.draw(data, options);
-        }
-        
-    </script>
+    <title>CSGO Stats</title>
 </head>
 
 <body>
-    <div id="curve_chart" style="width: 900px; height: 500px"></div>
+
+    <!-- Simple header with fixed tabs. -->
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header
+            mdl-layout--fixed-tabs">
+        <header class="mdl-layout__header">
+            <div class="mdl-layout__header-row">
+                <!-- Title -->
+                <span class="mdl-layout-title" style="margin: auto">CSGO Stats</span>
+            </div>
+            <!-- Tabs -->
+            <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+                <a href="#add-stats-tab" class="mdl-layout__tab is-active">Add Stats</a>
+                <a href="#view-stats-tab" class="mdl-layout__tab">View Stats</a>
+
+            </div>
+        </header>
+        <!-- <div class="mdl-layout__drawer"> -->
+        <!--<span class="mdl-layout-title">CSGO Stats</span>-->
+        <!-- </div> -->
+        <main class="mdl-layout__content">
+            <section class="mdl-layout__tab-panel is-active" id="add-stats-tab">
+                <div class="page-content">
+                    <!-- Your content goes here -->
+
+                    <form action="#" name="enterdata">
+                        <div class="mdl-textfield mdl-js-textfield">
+                            <input class="mdl-textfield__input" type="text" id="gamename">
+                            <label class="mdl-textfield__label" for="gamename">Game Name</label>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield">
+                            <input class="mdl-textfield__input" type="text" id="rank">
+                            <label class="mdl-textfield__label" for="rank">Rank Abbreviation</label>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield">
+                            <input class="mdl-textfield__input" type="text" id="kad">
+                            <label class="mdl-textfield__label" for="kad">K/A/D</label>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield">
+                            <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="mvps">
+                            <label class="mdl-textfield__label" for="mvps">MVPs</label>
+                            <span class="mdl-textfield__error">Input is not a number!</span>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield">
+                            <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="points">
+                            <label class="mdl-textfield__label" for="points">Points</label>
+                            <span class="mdl-textfield__error">Input is not a number!</span>
+                        </div>
+                    </form>
+                    <!-- Accent-colored raised button with ripple -->
+                    <button class="mdl-button mdl-js-button mdl-button--raised          mdl-js-ripple-effect mdl-button--accent" form="enterdata" name='submitbutton' onclick="getNewData()">
+                        Button
+                    </button>
+                </div>
+            </section>
+            <section class="mdl-layout__tab-panel" id="view-stats-tab">
+                <div class="page-content">
+
+                </div>
+            </section>
+        </main>
+    </div>
+
 </body>
 
 </html>
