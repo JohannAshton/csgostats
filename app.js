@@ -1,28 +1,7 @@
 var gameStats = [];
 document.getElementsByName("submitbutton")[0].addEventListener("click", submitForm);
 
-/*gameStats[0] = {
-		"playername":"Johann",
-		"timedate":"",
-		"map":"de_cbble",
-		"rank":"DMG",
-		"kills":23,
-		"assists":4,
-		"deaths":14,
-		"mvps":4,
-		"points":"50"
-}
-gameStats[1] = {
-		"playername":"Johann",
-		"timedate":"",
-		"map":"de_cbble",
-		"rank":"DMG",
-		"kills":21,
-		"assists":1,
-		"deaths":17,
-		"mvps":1,
-		"points":"43"
-}*/
+// to be executed when the submit button is pressed.
 function submitForm() {
 	let d = new Date();
 	let newData = {
@@ -36,13 +15,15 @@ function submitForm() {
 		"mvps":document.getElementById("mvps").value,
 		"points":document.getElementById("points").value
 	}
-	gameStats[gameStats.length] = newData;
-	console.log(gameStats);
+	// Makes sure playername is not undefined, kills is not less that the minimum of -3,
+	if (newData.playername != null | newData.kills < -3 | ) {
+		gameStats[gameStats.length] = newData;
+		google.charts.setOnLoadCallback(drawKdOverTime); // draws (or redraws) the chart. That function calls kdOverTime.
+	}
+
 }
-function kdOverTime (stats) {
+function kdForEachPlayer (stats) {
 		let dataArray = [];
-		titles = ['Time', 'KD'];
-		dataArray[0] = titles;
 		let kd = [];
 		let playernames = [];
 		/*for (let x = 0; x < stats.length; x++) {
@@ -63,17 +44,38 @@ function kdOverTime (stats) {
 						}
 				}
 		}
-
 		console.log(dataArray);
 		return dataArray;
+}
+// This function calculates the KD of each game and then formats it so that it can be used in Google Charts.
+function kdOverTime (stats) {
+	let finalArray = []
+	finalArray[0] = ["KD", "Timestamp"]
+	let kd = []
+	let timestamp = []
+	for (let x = 0; x < stats.length; x++) {
+		timestamp[x] = stats[x].timedate
+		// validation to make sure that a divide by zero error does not occur
+		if (stats[x].deaths != 0) {
+			kd[x] = stats[x].kills / stats[x].deaths;
+		}
+		else {
+			kd[x] = 0;
+		}
+		finalArray[x + 1] = [timestamp[x], kd[x]]
+
+
+	}
+	console.log(finalArray)
+	return finalArray
 }
 
 google.charts.load('current', {
 		'packages': ['corechart']
 });
-google.charts.setOnLoadCallback(drawChart);
+//google.charts.setOnLoadCallback(drawKdOverTime);
 
-function drawChart() {
+function drawKdOverTime() {
 		var data = google.visualization.arrayToDataTable(kdOverTime(gameStats));
 		var options = {
 				title: 'KD/Time',
