@@ -74,8 +74,7 @@ google.charts.load('current', {
 google.charts.setOnLoadCallback(drawChart);
 
 function drawChart() {
-		var data = google.visualization.arrayToDataTable(playerKillDeaths(gameStats));
-
+		var data = google.visualization.arrayToDataTable(kdOverTime(gameStats));
 		var options = {
 				title: 'KD/Time',
 				curveType: 'function',
