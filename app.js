@@ -1,7 +1,7 @@
 var gameStats = [];
 document.getElementsByName("submitbutton")[0].addEventListener("click", submitForm);
 
-// to be executed when the submit button is pressed.
+// to be executed when the submit button is pressed. Adds the new data to the array of JSON objects gameStats
 function submitForm() {
   let d = new Date();
   let newData = {
@@ -16,10 +16,10 @@ function submitForm() {
     "points":document.getElementById("points").value
   }
   // Makes sure playername is not undefined, kills is not less that the minimum of -3,
-  //if (newData.playername != null | newData.kills < -3) {
+  if (newData.playername != null | newData.kills < -3) {
     gameStats[gameStats.length] = newData;
     google.charts.setOnLoadCallback(drawKdOverTime); // draws (or redraws) the chart. That function calls kdOverTime.
-  //}
+  }
   playerKD(gameStats);
 }
 
@@ -56,7 +56,7 @@ function kdOverTime (stats) {
       kd[x] = stats[x].kills / stats[x].deaths;
     }
     else {
-      kd[x] = 0;
+      kd[x] = "9999";
     }
     finalArray[x + 1] = [timestamp[x], kd[x]]
 
@@ -69,8 +69,7 @@ function kdOverTime (stats) {
 google.charts.load('current', {
     'packages': ['corechart']
 });
-//google.charts.setOnLoadCallback(drawKdOverTime);
-
+// Google chart drawing functionality for KD/Time graph.
 function drawKdOverTime() {
     var data = google.visualization.arrayToDataTable(kdOverTime(gameStats));
     var options = {
